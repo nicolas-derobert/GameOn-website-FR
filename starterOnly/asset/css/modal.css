@@ -526,4 +526,10 @@ footer {
     opacity: 1;
   }
 }
-
+.error-message-style {
+  color: red;
+  font-size: 0.8em;
+}
+.error-signal-input {
+  border-color: red;
+}
