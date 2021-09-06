@@ -1,5 +1,3 @@
-
-
 // DOM Elements
 const modalbg = document.querySelector(".bground"); // formulaire
 const modalBtn = document.querySelectorAll(".modal-btn"); // Button to launch modal
@@ -86,8 +84,27 @@ function TestEmailElementValidity(input) {
 }
 // BirthdateElement
 function TestBirthdateElementValidity(value) {
-  if (value.length > 7) {
-    return true;
+	if (value.length > 7) {
+		// convert user input value into date object
+		var birthDate = new Date(value);
+		//  console.log(" birthDate"+ birthDate);
+
+		// get difference from current date;
+		var difference = Date.now() - birthDate.getTime();
+		// console.log(" Aujourd'hui"+ difference);
+
+		var ageDate = new Date(difference);
+		var calculatedAge = ageDate.getUTCFullYear() - 1970;
+		// console.log("Voici mon age " + calculatedAge);
+		if (calculatedAge >= 0) {
+			return true;
+		} else {
+			console.log("Votre age ne peut pas être négatif " + calculatedAge);
+
+			return false;
+		}
+		console.log("test ok");
+		return true;
 	} else {
 		return false;
 	}
@@ -187,7 +204,8 @@ errorMessageQuantityElement.style.display = "none";
 
 //Error message for Birthdate (5)
 let errorMessageBirthdateElement = document.createElement("div");
-errorMessageBirthdateElement.textContent = "Vous devez une date de naissance";
+errorMessageBirthdateElement.textContent =
+	"Vous devez indiquez une date de naissance valide";
 birthdateElement.after(errorMessageBirthdateElement);
 errorMessageBirthdateElement.className = "error-message-style";
 errorMessageBirthdateElement.style.display = "none";
@@ -207,8 +225,6 @@ errorMessagecheckbox1Element.textContent =
 lastCheckboxElement.after(errorMessagecheckbox1Element);
 errorMessagecheckbox1Element.className = "error-message-style";
 errorMessagecheckbox1Element.style.display = "none";
-
-
 
 //EVENEMENTS
 //(1) First
@@ -281,11 +297,10 @@ checkbox1Element.addEventListener("change", (e) => {
 	);
 });
 
-
-
-// Submission 
+// Submission
 submitBtn.addEventListener("click", (e) => {
-// The following code check all input value and dispolay appropriate message
+	e.preventDefault();
+	// The following code check all input value and dispolay appropriate message
 	DisplayErrorMessage(
 		TestFirstElementValidity(FirstElementValue),
 		firstElement,
@@ -322,7 +337,7 @@ submitBtn.addEventListener("click", (e) => {
 		errorMessageBirthdateElement
 	);
 
-  //CONSOLE LOG A DISPOITION POUR FAIRE DES TESTS
+	//CONSOLE LOG A DISPOITION POUR FAIRE DES TESTS
 	// console.log(FirstElementValue)  ;
 	// console.log(TestFirstElementValidity(FirstElementValue))  ;
 	// console.log(LastElementValue)  ;
@@ -336,7 +351,7 @@ submitBtn.addEventListener("click", (e) => {
 	// console.log(TestLocationElementValidity())  ;
 	// console.log(TestAcceptationElementValidity())  ;
 
-  // Code pour tester les input et déclencher les messages d'erreur si besoin 
+	// Code pour tester les input et déclencher les messages d'erreur si besoin
 	errorMessageGlobal.style.display = "none";
 	if (
 		TestFirstElementValidity(FirstElementValue) &&
@@ -349,8 +364,8 @@ submitBtn.addEventListener("click", (e) => {
 	) {
 		closeModal();
 		launchModalconfirmation();
-	} else {
 		e.preventDefault();
+	} else {
 		errorMessageGlobal.style.display = "block";
 	}
 });
